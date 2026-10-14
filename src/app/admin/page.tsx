@@ -147,7 +147,7 @@ export default function AdminOverviewPage() {
             {activity.map((a) => (
               <li key={a.id}>
                 <span className="when">{formatDate(a.created_at)}</span>
-                <span className="who">{a.admin_name}</span> {a.action.replace(".", " ")} {a.target_type} {a.target_id.slice(0, 8)}
+                <span className="who">{a.admin_name}</span> {a.action.replaceAll(".", " ")} {a.target_type} {a.target_id.slice(0, 8)}
                 {a.detail?.reason && <> — &ldquo;{a.detail.reason}&rdquo;</>}
               </li>
             ))}
