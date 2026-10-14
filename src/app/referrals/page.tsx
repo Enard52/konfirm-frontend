@@ -63,6 +63,7 @@ export default function ReferralsPage() {
   });
   const [data, setData] = useState<ReferralsResponse | null>(null);
   const [copied, setCopied] = useState(false);
+  const [copyError, setCopyError] = useState("");
 
   useEffect(() => {
     if (!resolved) return;
@@ -78,10 +79,16 @@ export default function ReferralsPage() {
 
   function copyLink() {
     if (!referralUrl) return;
-    navigator.clipboard.writeText(referralUrl).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
+    navigator.clipboard
+      .writeText(referralUrl)
+      .then(() => {
+        setCopied(true);
+        setCopyError("");
+        setTimeout(() => setCopied(false), 2000);
+      })
+      .catch(() => {
+        setCopyError("Couldn't copy — select and copy the link manually");
+      });
   }
 
   return (
@@ -104,6 +111,7 @@ export default function ReferralsPage() {
                 {copied ? "Copied!" : "Copy link"}
               </button>
             </div>
+            {copyError && <div className="status error" style={{ marginTop: 8 }}>{copyError}</div>}
           </div>
 
           <div className="admin-section">

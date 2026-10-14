@@ -28,6 +28,7 @@ export default function NewPaymentPage() {
   const [submitting, setSubmitting] = useState(false);
   const [linkUrl, setLinkUrl] = useState("");
   const [copyLabel, setCopyLabel] = useState("Copy");
+  const [copyError, setCopyError] = useState("");
   const [showResult, setShowResult] = useState(false);
 
   async function handleSubmit() {
@@ -67,14 +68,20 @@ export default function NewPaymentPage() {
   }
 
   async function handleCopy() {
-    await navigator.clipboard.writeText(linkUrl);
-    setCopyLabel("Copied");
-    setTimeout(() => setCopyLabel("Copy"), 1500);
+    try {
+      await navigator.clipboard.writeText(linkUrl);
+      setCopyLabel("Copied");
+      setCopyError("");
+      setTimeout(() => setCopyLabel("Copy"), 1500);
+    } catch {
+      setCopyError("Couldn't copy — select and copy the link manually");
+    }
   }
 
   function handleAnother() {
     setAmount("");
     setDescription("");
+    setCopyError("");
     setShowResult(false);
   }
 
@@ -157,6 +164,7 @@ export default function NewPaymentPage() {
                 {copyLabel}
               </button>
             </div>
+            {copyError && <div className="status error" style={{ margin: "8px 0" }}>{copyError}</div>}
             <button type="button" className="primary" onClick={() => window.location.assign(linkUrl)}>
               Open checkout
             </button>
