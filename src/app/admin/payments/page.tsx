@@ -151,6 +151,7 @@ export default function AdminPaymentsPage() {
                     <td>{formatDate(p.created_at)}</td>
                     <td>
                       <select
+                        aria-label="Payment status"
                         value={p.status}
                         disabled={pendingId === p.id}
                         onChange={(e) => changeStatus(p, e.target.value as PaymentStatus)}

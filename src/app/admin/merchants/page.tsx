@@ -175,6 +175,7 @@ export default function AdminMerchantsPage() {
                     </td>
                     <td>
                       <select
+                        aria-label="Risk tier"
                         value={m.risk_tier}
                         disabled={pendingId === m.id}
                         onChange={(e) => changeTier(m, e.target.value as RiskTier)}
