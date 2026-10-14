@@ -114,6 +114,7 @@ export default function NewPaymentPage() {
                 <button
                   key={c}
                   type="button"
+                  aria-pressed={currency === c}
                   className={`ctoggle${currency === c ? " active" : ""}`}
                   onClick={() => setCurrency(c)}
                 >
