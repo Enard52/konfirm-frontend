@@ -77,7 +77,11 @@ export default function AdminMerchantsPage() {
   async function toggleStatus(merchant: Merchant) {
     const nextStatus = merchant.status === "suspended" ? "active" : "suspended";
     const verb = nextStatus === "suspended" ? "suspend" : "reactivate";
-    if (!window.confirm(`${verb === "suspend" ? "Suspend" : "Reactivate"} ${merchant.name} (${merchant.email})?`)) return;
+    const confirmMessage =
+      verb === "suspend"
+        ? `Suspend ${merchant.name} (${merchant.email})?\n\nThis immediately invalidates active sessions, blocks dashboard access, and stops their payment links from accepting payments.`
+        : `Reactivate ${merchant.name} (${merchant.email})?\n\nThis restores dashboard access and allows their payment links to accept payments again.`;
+    if (!window.confirm(confirmMessage)) return;
 
     let reason: string | null = "";
     if (verb === "suspend") {
